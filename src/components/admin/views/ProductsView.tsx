@@ -162,6 +162,34 @@ export default function ProductsView() {
     if (!editingProduct?.name) { showToastMsg('Please enter product name'); return }
     if (!editingProduct?.category) { showToastMsg('Please select a category'); return }
     
+    // Check if at least one image is uploaded
+    if (prodImages.length === 0) {
+      showToastMsg('Please upload at least one product image');
+      return
+    }
+    
+    // Check if at least one variety/variant is added with price and stock
+    if (prodVarieties.length === 0) {
+      showToastMsg('Please add at least one variety with price and stock');
+      return
+    }
+    
+    // Validate all varieties have name, price, and stock
+    for (const v of prodVarieties) {
+      if (!v.name || !v.name.trim()) {
+        showToastMsg('All varieties must have a name (e.g., 1kg, 500g)');
+        return
+      }
+      if (!v.price || parseFloat(v.price) <= 0) {
+        showToastMsg('All varieties must have a valid price');
+        return
+      }
+      if (!v.stock || parseInt(v.stock) < 0) {
+        showToastMsg('All varieties must have a valid stock quantity');
+        return
+      }
+    }
+    
     try {
       // Determine if this is a new product or update
       const existingInDb = products.find(p => p.id === editingProduct.id)
@@ -841,9 +869,11 @@ export default function ProductsView() {
                 </div>
               </div>
 
-              <div style={{display: 'flex', gap: '12px', marginTop: '8px', marginBottom: '40px'}}>
+                      <div style={{display: 'flex', gap: '12px', marginTop: '8px', marginBottom: '40px'}}>
                 <button type="button" className="btn-cancel-prod" style={{flex: 1}} onClick={() => setEditingProduct(null)}>Cancel</button>
-                <button type="submit" className="btn-primary-prod" style={{flex: 1}}>Save Changes</button>
+                <button type="submit" className="btn-primary-prod" style={{flex: 1}}>
+                  {products.find(p => p.id === editingProduct?.id) ? 'Update Product' : 'Create Product'}
+                </button>
               </div>
             </form>
           </div>

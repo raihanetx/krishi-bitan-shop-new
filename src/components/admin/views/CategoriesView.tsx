@@ -76,6 +76,17 @@ export function CategoriesView() {
       return
     }
 
+    // Validate based on type
+    if (editingCategory.type === 'icon' && !editingCategory.icon) {
+      showToastMsg('Please select an icon for the category')
+      return
+    }
+    
+    if (editingCategory.type === 'image' && !editingCategory.image) {
+      showToastMsg('Please upload an image for the category')
+      return
+    }
+
     setIsSaving(true)
     
     try {
@@ -267,7 +278,7 @@ export function CategoriesView() {
                     type="radio" 
                     name="catType" 
                     checked={editingCategory.type === 'icon'}
-                    onChange={() => setEditingCategory({ ...editingCategory, type: 'icon' })}
+                    onChange={() => setEditingCategory({ ...editingCategory, type: 'icon', image: '' })}
                     style={{ accentColor: '#16a34a', width: '16px', height: '16px' }}
                   />
                   <div>
@@ -292,7 +303,7 @@ export function CategoriesView() {
                     type="radio" 
                     name="catType" 
                     checked={editingCategory.type === 'image'}
-                    onChange={() => setEditingCategory({ ...editingCategory, type: 'image' })}
+                    onChange={() => setEditingCategory({ ...editingCategory, type: 'image', icon: '' })}
                     style={{ accentColor: '#16a34a', width: '16px', height: '16px' }}
                   />
                   <div>
