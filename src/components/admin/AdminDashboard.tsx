@@ -33,17 +33,10 @@ function AdminDashboardContent({ setView }: { setView: (v: ViewType) => void }) 
     setEditingProduct,
     editingCoupon,
     setEditingCoupon,
-    openCategoryEdit,
-    openProductEdit,
     openCouponEdit,
     showToast,
     toastMsg,
     toastType,
-    isModalOpen,
-    setIsModalOpen,
-    newProduct,
-    setNewProduct,
-    handleAddProductInventory,
     getPageTitle,
     getPageDesc,
     settings,
@@ -174,12 +167,7 @@ function AdminDashboardContent({ setView }: { setView: (v: ViewType) => void }) 
           ))}
         </div>
 
-        <div className="nav-slider-footer">
-          <button className="nav-add-btn" onClick={() => { setIsModalOpen(true); setNavOpen(false); }}>
-            <i className="ri-add-line"></i>
-            <span>Add Inventory</span>
-          </button>
-        </div>
+
       </nav>
 
       {/* Main Content */}
@@ -247,119 +235,9 @@ function AdminDashboardContent({ setView }: { setView: (v: ViewType) => void }) 
         )}
       </main>
 
-      {/* Add Inventory Modal */}
-      {isModalOpen && (
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-        }}>
-          <div style={{
-            background: 'white',
-            borderRadius: '12px',
-            padding: '24px',
-            width: '400px',
-            maxWidth: '90vw',
-          }}>
-            <h3 style={{marginBottom: '16px', fontSize: '18px', fontWeight: 600}}>Add New Product</h3>
-            <form onSubmit={handleAddProductInventory}>
-              <div style={{marginBottom: '16px'}}>
-                <label style={{display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: 500}}>Product Name</label>
-                <input 
-                  type="text" 
-                  value={newProduct.name}
-                  onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                  }}
-                  placeholder="Enter product name"
-                />
-              </div>
-              <div style={{marginBottom: '24px'}}>
-                <label style={{display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: 500}}>Stock Quantity</label>
-                <input 
-                  type="number" 
-                  value={newProduct.stock}
-                  onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                  }}
-                  placeholder="Enter stock quantity"
-                />
-              </div>
-              <div style={{display: 'flex', gap: '12px', justifyContent: 'flex-end'}}>
-                <button 
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  style={{
-                    padding: '8px 16px',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '6px',
-                    background: 'white',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                  }}
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit"
-                  style={{
-                    padding: '8px 16px',
-                    border: 'none',
-                    borderRadius: '6px',
-                    background: '#16a34a',
-                    color: 'white',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                  }}
-                >
-                  Add Product
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
-      {/* Back to Shop Button */}
-      <button
-        onClick={() => setView('shop')}
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          left: '24px',
-          background: '#16a34a',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          padding: '10px 20px',
-          fontSize: '14px',
-          fontWeight: 500,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
-          zIndex: 100,
-        }}
-      >
-        <i className="ri-arrow-left-line"></i>
-        Back to Shop
-      </button>
+
+
 
       <style jsx global>{`
         @keyframes toastFadeIn {
