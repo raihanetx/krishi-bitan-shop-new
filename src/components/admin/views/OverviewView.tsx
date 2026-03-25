@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAdmin } from '@/components/admin/context/AdminContext'
 import { AlertCircle } from 'lucide-react'
+import GettingStarted from '@/components/admin/components/GettingStarted'
 
 interface OverviewViewProps {
   setDashView: (view: string) => void
@@ -60,11 +61,17 @@ interface DashboardData {
 type Period = 'Today' | '7D' | '15D' | '30D' | '6M' | '1Y'
 
 export const OverviewView: React.FC<OverviewViewProps> = ({ setDashView }) => {
-  const { showToastMsg } = useAdmin()
+  const { showToastMsg, categories, products, settings } = useAdmin()
   const [period, setPeriod] = useState<Period>('30D')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [data, setData] = useState<DashboardData | null>(null)
+  
+  // Check if this is a new shop (needs setup guidance)
+  const hasCategories = categories.length > 0
+  const hasProducts = products.length > 0
+  const hasCredentials = !!(settings.cloudinaryCloudName && (settings.hasCloudinaryApiSecret || settings.cloudinaryApiSecret))
+  const isNewShop = !hasCategories || !hasProducts
 
   // Fetch dashboard data from API
   useEffect(() => {
@@ -335,6 +342,15 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ setDashView }) => {
       `}</style>
       
       <div className="max-w-[1600px] mx-auto">
+        {/* Getting Started Checklist - Shows for new shops */}
+        {isNewShop && (
+          <GettingStarted 
+            hasCategories={hasCategories}
+            hasProducts={hasProducts}
+            hasCredentials={hasCredentials}
+            onClose={() => {}}
+          />
+        )}
         
         {/* Filter Tabs */}
         <div className="flex gap-2 mb-4 flex-wrap">
